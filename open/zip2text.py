@@ -30,9 +30,16 @@ def read_zip_text(zip_fname):
 
 def main():
     basedir = "zip/new"
+    outdir = "plain/new"
+    os.makedirs(outdir, exist_ok=True)
     files = zip_files(basedir)
-    fname, lines = read_zip_text(files[0])
-    print(lines)
+    for f in files:
+        fname, lines = read_zip_text(f)
+        ofile = os.path.join(outdir, fname)
+        with open(ofile, "w") as w:
+            for line in lines:
+                w.write(line)
+                w.write("\n")
 
 if __name__ == "__main__":
     main()

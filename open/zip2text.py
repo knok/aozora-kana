@@ -41,6 +41,7 @@ def main():
             fname, lines = read_zip_text(f)
         except zipfile.BadZipFile as e:
             print("error: %s, skip file %s" % (e, f))
+            continue
         ofile = os.path.join(outdir, fname)
         with open(ofile, "w") as w:
             for line in lines:

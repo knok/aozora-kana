@@ -23,7 +23,10 @@ def zip_files(basedir):
 
 def read_zip_text(zip_fname):
     with zipfile.ZipFile(zip_fname) as f:
-        fi = f.filelist[0]
+        fi = None
+        for i in f.filelist:
+            if i.filename.endswith(".txt"):
+                fi = i
         with f.open(fi.filename, 'r') as r:
             lines = process_sjis_rtext(r)
     return fi.filename, lines

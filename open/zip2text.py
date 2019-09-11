@@ -37,7 +37,10 @@ def main():
     os.makedirs(outdir, exist_ok=True)
     files = zip_files(basedir)
     for f in files:
-        fname, lines = read_zip_text(f)
+        try:
+            fname, lines = read_zip_text(f)
+        except zipfile.BadZipFile as e:
+            print("error: %s, skip file %s" % (e, f))
         ofile = os.path.join(outdir, fname)
         with open(ofile, "w") as w:
             for line in lines:

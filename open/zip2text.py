@@ -29,7 +29,8 @@ def read_zip_text(zip_fname):
                 fi = i
         with f.open(fi.filename, 'r') as r:
             lines = process_sjis_rtext(r)
-    return fi.filename, lines
+    fname = os.path.basename(fi.filename)
+    return fname, lines
 
 def main():
     basedir = "zip/new"

@@ -27,6 +27,8 @@ def remove_headfoot(file):
                 state = ReadState.NOTICE
             elif state == ReadState.NOTICE:
                 state = ReadState.BODY
+            elif state == ReadState.BODY:
+                continue # just ignore
             else:
                 raise ValueError("state: %s" % str(state))
             continue

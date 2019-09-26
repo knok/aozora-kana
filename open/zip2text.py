@@ -25,7 +25,7 @@ def read_zip_text(zip_fname):
     with zipfile.ZipFile(zip_fname) as f:
         fi = None
         for i in f.filelist:
-            if i.filename.endswith(".txt"):
+            if i.filename.endswith(".txt") or i.filename.endswith(".TXT"):
                 fi = i
         with f.open(fi.filename, 'r') as r:
             lines = process_sjis_rtext(r)
@@ -33,21 +33,22 @@ def read_zip_text(zip_fname):
     return fname, lines
 
 def main():
-    basedir = "zip/new"
-    outdir = "plain/new"
-    os.makedirs(outdir, exist_ok=True)
-    files = zip_files(basedir)
-    for f in files:
-        try:
-            fname, lines = read_zip_text(f)
-        except zipfile.BadZipFile as e:
-            print("error: %s, skip file %s" % (e, f))
-            continue
-        ofile = os.path.join(outdir, fname)
-        with open(ofile, "w") as w:
-            for line in lines:
-                w.write(line)
-                w.write("\n")
+    bdirs = ["zip/new", "zip/old"]
+    odirs = ["plain/new", "plain/old"]
+    for basedir, outdir in zip(bdirs, odirs):
+        os.makedirs(outdir, exist_ok=True)
+        files = zip_files(basedir)
+        for f in files:
+            try:
+                fname, lines = read_zip_text(f)
+            except zipfile.BadZipFile as e:
+                print("error: %s, skip file %s" % (e, f))
+                continue
+            ofile = os.path.join(outdir, fname)
+            with open(ofile, "w") as w:
+                for line in lines:
+                    w.write(line)
+                    w.write("\n")
 
 if __name__ == "__main__":
     main()

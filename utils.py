@@ -21,7 +21,7 @@ def remove_headfoot(file):
     state = ReadState.HEADER
     ret = []
     for _line in file:
-        line = _line.decode('cp932')
+        line = _line.decode('cp932', "ignore")
         if line.startswith("--------"):
             if state == ReadState.HEADER:
                 state = ReadState.NOTICE
